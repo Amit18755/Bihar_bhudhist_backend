@@ -5,7 +5,11 @@ from .models import ContactMessage
 from .serializers import ContactMessageSerializer
 from rest_framework.permissions import IsAdminUser
 from rest_framework.generics import ListAPIView
+from rest_framework.decorators import api_view,permission_classes
+from rest_framework import status
+ 
 
+# API for the creating contact 
 class ContactMessageCreateView(APIView):
     def post(self, request):
         serializer = ContactMessageSerializer(data=request.data)
@@ -13,7 +17,8 @@ class ContactMessageCreateView(APIView):
             serializer.save()  # action defaults to 'pending'
             return Response({"message": "Message received successfully."}, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-    
+
+# list all the contact messages   
 class ContactMessageListView(ListAPIView):
     serializer_class = ContactMessageSerializer
     permission_classes = [IsAdminUser]
@@ -21,7 +26,7 @@ class ContactMessageListView(ListAPIView):
     def get_queryset(self):
         return ContactMessage.objects.all().order_by('-created_at')
 
-
+# filtering the message based on the action performed
 class ContactMessageByActionView(APIView):
     permission_classes = [IsAdminUser]
 
@@ -39,11 +44,8 @@ class ContactMessageByActionView(APIView):
         serializer = ContactMessageSerializer(messages, many=True)
         return Response(serializer.data)
 
-from rest_framework.decorators import api_view,permission_classes
-from rest_framework.response import Response
-from rest_framework import status
-from .models import ContactMessage
-
+ 
+# updating the action field to contact us message
 @api_view(['PATCH'])
 @permission_classes([IsAdminUser])
 def update_contact_action(request, pk):

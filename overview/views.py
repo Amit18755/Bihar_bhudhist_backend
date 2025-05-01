@@ -9,7 +9,7 @@ class OverviewListView(generics.ListAPIView):
     queryset = Overview.objects.all()
     serializer_class = OverviewSerializer
 
-# Create a new Overview
+# Create a new Overview (used only one time after that just update the overview)
 class OverviewCreateView(generics.CreateAPIView):
     queryset = Overview.objects.all()
     serializer_class = OverviewSerializer
@@ -22,7 +22,7 @@ class OverviewUpdateView(generics.UpdateAPIView):
     lookup_field = 'pk'
     permission_classes = [IsAdminUser]
 
-#List Overview images 
+# List Overview images 
 class OverviewImageListView(generics.ListAPIView):
     queryset = OverviewImage.objects.all()
     serializer_class = OverviewImageSerializer

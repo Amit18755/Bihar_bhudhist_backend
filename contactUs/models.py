@@ -1,4 +1,4 @@
- # models.py
+ # models for the conatct us form 
 from django.db import models
 
 class ContactMessage(models.Model):

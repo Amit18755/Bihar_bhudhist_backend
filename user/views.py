@@ -23,11 +23,11 @@ class LoginView(APIView):
         user = authenticate(username=username, password=password)
 
         if user is not None:
-            # Create JWT token
+            # Creating JWT token
             refresh = RefreshToken.for_user(user)
             access_token = str(refresh.access_token)
 
-            # Get extended user data
+            # Getting extended user data
             try:
                 extended = ExtendedUser.objects.get(auth_user_id=user.id)
                 role = extended.role
@@ -41,13 +41,13 @@ class LoginView(APIView):
                 'access_token': access_token,
             }, status=status.HTTP_200_OK)
 
-            # Set token in cookie
+            # Setting token in cookie for further use
             response.set_cookie(
                 key='access_token',
                 value=access_token,
                 httponly=True,
                 samesite='Lax',
-                secure=False  # Set True in production
+                secure=False  # Set True in production 
             )
 
             return response
@@ -75,7 +75,7 @@ class ForgetPasswordView(APIView):
         if extended_user.otp != otp:
             return Response({"detail": "OTP doesn't match"}, status=status.HTTP_400_BAD_REQUEST)
 
-        # OTP matched — reset password and clear OTP
+        # OTP matched, now reset password and clear OTP
         user.set_password(new_password)
         user.save()
 
@@ -93,10 +93,10 @@ class SendOTPView(APIView):
         except User.DoesNotExist:
             return Response({"detail": "Username not found"}, status=status.HTTP_404_NOT_FOUND)
 
-        # Generate 6-digit OTP
+        #  6 digit otp is generated
         otp = random.randint(100000, 999999)
 
-        # Store OTP in ExtendedUser
+        # Storing OTP in ExtendedUser
         try:
             extended_user = ExtendedUser.objects.get(auth_user_id=user)
             extended_user.otp = otp
@@ -104,7 +104,7 @@ class SendOTPView(APIView):
         except ExtendedUser.DoesNotExist:
             return Response({"detail": "Extended user record not found."}, status=status.HTTP_404_NOT_FOUND)
 
-        # Send email
+        # Sending  email
         subject = "Your OTP Code for Password Reset"
         message = f"Dear user, your OTP code for reset password is: {otp}"
         send_mail(
@@ -150,7 +150,7 @@ def change_password(request):
 @api_view(['GET'])
 @permission_classes([IsAdminUser])
 def get_all_users(request):
-    # Exclude the user with id=1 from the query
+    # Exclude the user with id=1 from the query (just for safe purpose)
     users = ExtendedUser.objects.exclude(id=1)
     serializer = UserDetailSerializer(users, many=True)
     return Response(serializer.data)

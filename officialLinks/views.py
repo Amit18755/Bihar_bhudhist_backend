@@ -5,6 +5,7 @@ from rest_framework import status
 from .models import OfficialLink
 from .serializers import OfficialLinkSerializer
 
+# creating a new official link tag
 @api_view(['POST'])
 @permission_classes([IsAdminUser])
 def create_official_link(request):
@@ -20,14 +21,15 @@ def create_official_link(request):
         "errors": serializer.errors
     }, status=status.HTTP_400_BAD_REQUEST)
 
-
+# getting official link
 @api_view(['GET'])
 def list_official_links(request):
-    links = OfficialLink.objects.all().order_by('id')  # Ordered by ID
+    links = OfficialLink.objects.all().order_by('id')  
     serializer = OfficialLinkSerializer(links, many=True)
     return Response(serializer.data, status=status.HTTP_200_OK)
 
 
+# getting official link set by id
 @api_view(['GET'])
 @permission_classes([IsAdminUser])
 def get_official_link_by_id(request, pk):
@@ -40,6 +42,8 @@ def get_official_link_by_id(request, pk):
             "message": "Official Link not found."
         }, status=status.HTTP_404_NOT_FOUND)
 
+
+# for deleting official link set
 @api_view(['DELETE'])
 @permission_classes([IsAdminUser])
 def delete_official_link(request, pk):
@@ -55,6 +59,7 @@ def delete_official_link(request, pk):
         }, status=status.HTTP_404_NOT_FOUND)
  
 
+# for updating the official link
 @api_view(['PUT'])
 @permission_classes([IsAdminUser])
 def update_official_link(request, pk):

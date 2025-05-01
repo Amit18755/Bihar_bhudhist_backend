@@ -9,7 +9,7 @@ class Place(models.Model):
 
 class PlaceImage(models.Model):
     place = models.ForeignKey(Place, on_delete=models.CASCADE, related_name='images')
-    image = models.BinaryField()  # Stores the image as binary
+    image = models.BinaryField()  # Storing the image as binary
 
     def __str__(self):
         return f"Image for {self.place.heading}"

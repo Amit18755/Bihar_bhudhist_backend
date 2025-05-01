@@ -1,4 +1,4 @@
-# overview/models.py
+
 from django.db import models
 
 class Overview(models.Model):

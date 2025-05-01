@@ -5,7 +5,7 @@ from .serializers import PlaceImageSerializer, PlaceSerializer
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAdminUser
 
-# Create a new Place — only return message and code
+# Create a new Place 
 class PlaceCreateView(generics.CreateAPIView):
     serializer_class = PlaceSerializer
     permission_classes = [IsAdminUser]
@@ -23,7 +23,7 @@ class PlaceCreateView(generics.CreateAPIView):
                 "errors": serializer.errors
             }, status=status.HTTP_400_BAD_REQUEST)
 
-# Get all Places ordered by ID with success and error messages
+# Get all Places ordered by ID 
 class PlaceListView(generics.ListAPIView):
     serializer_class = PlaceSerializer
 
@@ -89,7 +89,7 @@ def get_images_by_place(request, place_id):
             "data": 0
         }, status=status.HTTP_404_NOT_FOUND)
 
-    # Get images for the place
+    
     images = PlaceImage.objects.filter(place_id=place_id)
 
     if not images.exists():
@@ -98,7 +98,7 @@ def get_images_by_place(request, place_id):
             "data": 0
         }, status=status.HTTP_200_OK)
 
-    # Serialize and return the images
+     
     serializer = PlaceImageSerializer(images, many=True)
     return Response({
         "message": f"Images retrieved successfully for place ID {place_id}.",

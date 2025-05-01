@@ -5,6 +5,8 @@ from .models import TouristPlace
 from .serializers import TouristPlaceSerializer
 from rest_framework.permissions import IsAdminUser
 
+
+
 @api_view(['POST'])
 @permission_classes([IsAdminUser])
 def create_tourist_place(request):
@@ -19,6 +21,7 @@ def create_tourist_place(request):
         "message": "There was an error creating the Tourist Place.",
         "errors": serializer.errors
     }, status=status.HTTP_400_BAD_REQUEST)
+
 
 
 @api_view(['GET'])

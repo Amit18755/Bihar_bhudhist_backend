@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 
+# use the auth_user model of the DRF
 class ExtendedUser(models.Model):
     ROLE_CHOICES = [
         ('super admin', 'Super Admin'),

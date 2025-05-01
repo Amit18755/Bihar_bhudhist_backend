@@ -3,13 +3,13 @@ from .models import Place, PlaceImage
 import base64
 from django.core.files.base import ContentFile
 
-# Serializer for adding & deleting only Place
+# Serializer for adding and deleting only Place
 class PlaceSerializer(serializers.ModelSerializer):
     class Meta:
         model = Place
         fields = ['id', 'heading', 'district']
 
-# Serializer for adding & deleting images only
+# Serializer for adding and deleting images only
 class PlaceImageSerializer(serializers.ModelSerializer):
     image = serializers.SerializerMethodField()
     image_upload = serializers.CharField(write_only=True, required=True)
